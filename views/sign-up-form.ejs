@@ -9,12 +9,24 @@
     <h1>Sign Up</h1>
     <form action="" method="POST">
       <label for="username">Username</label>
-      <input name="username" placeholder="username" type="text" />
-      <label for="fullname">Full Name</label>
-      <input type="text" name="fullname">
+      <input
+        name="username"
+        placeholder="username"
+        type="text"
+        required="true"
+      />
       <label for="password">Password</label>
-      <input name="password" type="password" />
+      <input name="password" type="password" required="true" />
+      <label for="passwordConfirm">Password Confirmation</label>
+      <input type="password" name="passwordConfirm" required="true">
       <button>Sign Up</button>
     </form>
+    <%if (errors) {%>
+    <ul>
+      <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <%}%>
   </body>
 </html>

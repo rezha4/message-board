@@ -17,38 +17,6 @@ const Message = require("./models/messages");
 
 const app = express();
 
-passport.use(
-  new LocalStrategy(
-    asyncHandler(async (username, password, done) => {
-      const user = await User.findOne({ username: username });
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
-      }
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    })
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(
-  asyncHandler(async (id, done) => {
-    const user = await User.findById(id);
-    done(null, user);
-  })
-);
-
-app.use(session({ secret: "cnc", resave: false, saveUninitialized: true }));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(express.urlencoded({ extended: false }));
-
 const indexRouter = require("./routes/index");
 
 app.set("views", "views");

@@ -6,10 +6,23 @@
     <title></title>
   </head>
   <body>
-    <ul>
-        <li><a href="/sign-up">Sign Up</a></li>
-        <li><a href="/log-in">Log In</a></li>
-    </ul>
+    <%if (user) {%> <%if (!user.isMember) {%>
+    <h1>Become a member <a href="/member-form">here</a> to post a message</h1>
+    <a href="log-out">Logout</a>
+    <%} else {%>
+      <h1><a href="/message-form">Send Message</a></h1>
+      <br>
+    <a href="log-out">Logout</a>
+    <%}%> <%} else {%>
     <h1>Welcome to message board</h1>
+    <h3>Please login or sign-up <a href="/sign-up">here</a></h3>
+    <form action="" method="POST">
+      <label for="username">Username</label>
+      <input type="text" name="username" />
+      <label for="password">Password</label>
+      <input type="password" name="password" />
+      <button type="submit">Log In</button>
+    </form>
+    <%}%>
   </body>
 </html>

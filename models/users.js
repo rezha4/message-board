@@ -4,7 +4,6 @@ const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
   username: { type: String, required: true, unique: true },
-  fullname: { type: String, required: true },
   password: { type: String, required: true },
   isMember: { type: Boolean, default: false },
   isAdmin: { type: Boolean, default: false },
