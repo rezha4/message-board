@@ -10,8 +10,8 @@
     <h1>Become a member <a href="/member-form">here</a> to post a message</h1>
     <a href="log-out">Logout</a>
     <%} else {%>
-      <h1><a href="/message-form">Send Message</a></h1>
-      <br>
+    <h1><a href="/message-form">Send Message</a></h1>
+    <br />
     <a href="log-out">Logout</a>
     <%}%> <%} else {%>
     <h1>Welcome to message board</h1>
@@ -23,6 +23,23 @@
       <input type="password" name="password" />
       <button type="submit">Log In</button>
     </form>
-    <%}%>
+    <%}%> <% messages.forEach(message => { %>
+    <div class="message">
+      <p>Message Text: <%= message.text %></p>
+      <% if (req.user.isMember) { %>
+      <p>
+        <% if (req.user.isMember) { %> Author: <%= message.author %>
+        <!-- Show author if user is an admin -->
+        <% } %> Timestamp: <%= message.timestamp %>
+        <!-- Show timestamp if user is a member -->
+      </p>
+      <% } %> <% if (req.user.isAdmin) { %>
+      <form action="/delete-message/<%= message._id %>" method="POST">
+        <button type="submit">Delete</button>
+        <!-- Show delete button for admins -->
+      </form>
+      <% } %>
+    </div>
+    <% }) %>
   </body>
 </html>

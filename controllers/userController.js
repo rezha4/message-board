@@ -3,6 +3,17 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
+const Message = require("../models/messages");
+
+exports.index = async (req, res) => {
+  try {
+    const messages = await Message.find({}).exec();
+    res.render("index", { user: req.user, messages: messages });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("error fetching data");
+  }
+};
 
 exports.user_form_get = (req, res, next) => {
   res.render("sign-up-form", { errors: [] });

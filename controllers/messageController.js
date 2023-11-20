@@ -6,7 +6,7 @@ exports.message_form_get = (req, res, next) => {
 
 exports.message_form_post = async (req, res, next) => {
   const message = new Message({
-    message: req.body.message,
+    text: req.body.message,
     author: req.user,
   });
   await message.save();

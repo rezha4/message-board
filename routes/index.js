@@ -7,6 +7,7 @@ const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const asyncHandler = require("express-async-handler");
 const User = require("../models/users");
+const Message = require("../models/messages");
 
 const message_controller = require("../controllers/messageController");
 const user_controller = require("../controllers/userController");
@@ -50,9 +51,7 @@ router.use(passport.initialize());
 router.use(passport.session());
 router.use(express.urlencoded({ extended: false }));
 
-router.get("/", (req, res) => {
-  res.render("index.ejs", { user: req.user });
-});
+router.get("/", user_controller.index);
 
 router.get("/sign-up", user_controller.user_form_get);
 
@@ -69,5 +68,18 @@ router.post("/member-form", user_controller.member_form_post);
 router.get("/message-form", message_controller.message_form_get);
 
 router.post("/message-form", message_controller.message_form_post);
+
+router.post("/delete-message/:id", async (req, res) => {
+  const messageId = req.params.id;
+  try {
+    const deletedMessage = await Message.findByIdAndDelete(messageId);
+    if (!deletedMessage) {
+      return res.status(404).send("Message not found");
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("error deleting message");
+  }
+});
 
 module.exports = router;
